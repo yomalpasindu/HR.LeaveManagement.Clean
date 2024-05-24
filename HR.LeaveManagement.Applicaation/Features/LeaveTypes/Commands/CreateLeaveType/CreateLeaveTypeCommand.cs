@@ -1,14 +1,14 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HR.LeaveManagement.Applicaation.Features.LeaveTypes.Queries.GetAllLeaveTypes
+namespace HR.LeaveManagement.Applicaation.Features.LeaveTypes.Commands.CreateLeaveType
 {
-    public class LeaveTypeDto
+    public class CreateLeaveTypeCommand:IRequest<int>
     {
-        public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public int DefaultDays { get; set; }
     }
