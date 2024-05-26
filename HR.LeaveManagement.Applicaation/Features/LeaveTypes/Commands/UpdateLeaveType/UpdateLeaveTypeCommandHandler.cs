@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HR.LeaveManagement.Applicaation.Contracts.Persistence;
+using HR.LeaveManagement.Application.Exceptions;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace HR.LeaveManagement.Applicaation.Features.LeaveTypes.Commands.UpdateLea
         }
         public async Task<Unit> Handle(UpdateLeaveTypeCommand request, CancellationToken cancellationToken)
         {
-            var leaveTypetoUpdate = _mapper.Map<Domain.LeaveType>(request);
+            var leaveTypetoUpdate = _mapper.Map<Domain.LeaveType>(request) ?? throw new NotFoundException(nameof(LeaveTypes), request.Name);
             await _leaveTypeRepository.UpdateAsync(leaveTypetoUpdate);
             return Unit.Value;
         }

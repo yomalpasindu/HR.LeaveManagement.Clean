@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HR.LeaveManagement.Applicaation.Contracts.Persistence;
+using HR.LeaveManagement.Application.Exceptions;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace HR.LeaveManagement.Applicaation.Features.LeaveTypes.Queries.GetLeaveTy
         private readonly IMapper _mapper;
         private readonly ILeaveTypeRepository _leaveTypeRepository;
 
-        public GetLeaveTypesDetailsQueryHandler(IMapper mapper,ILeaveTypeRepository leaveTypeRepository)
+        public GetLeaveTypesDetailsQueryHandler(IMapper mapper, ILeaveTypeRepository leaveTypeRepository)
         {
             _mapper = mapper;
             _leaveTypeRepository = leaveTypeRepository;
@@ -22,8 +23,8 @@ namespace HR.LeaveManagement.Applicaation.Features.LeaveTypes.Queries.GetLeaveTy
 
         public async Task<LeaveTypesDetailsDto> Handle(GetLeaveTypesDetailsQuery request, CancellationToken cancellationToken)
         {
-            var leaveTypes = await _leaveTypeRepository.GetByIdAsync(request.Id);
-            var data=_mapper.Map<LeaveTypesDetailsDto>(leaveTypes);
+            var leaveTypes = await _leaveTypeRepository.GetByIdAsync(request.Id) ?? throw new NotFoundException(nameof(LeaveTypes), request.Id);
+            var data = _mapper.Map<LeaveTypesDetailsDto>(leaveTypes);
             return data;
         }
     }
