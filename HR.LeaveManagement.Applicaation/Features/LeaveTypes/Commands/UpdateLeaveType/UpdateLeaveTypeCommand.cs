@@ -11,5 +11,6 @@ namespace HR.LeaveManagement.Applicaation.Features.LeaveTypes.Commands.UpdateLea
     {
         public string Name { get; set; } = string.Empty;
         public int DefaultDays { get; set; }
+        public int Id { get; set; }
     }
 }

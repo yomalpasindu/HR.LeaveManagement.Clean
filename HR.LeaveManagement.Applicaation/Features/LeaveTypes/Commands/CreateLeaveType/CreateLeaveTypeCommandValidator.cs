@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using HR.LeaveManagement.Applicaation.Contracts.Persistence;
 using HR.LeaveManagement.Applicaation.Features.LeaveTypes.Commands.CreateLeaveType;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,9 @@ namespace HR.LeaveManagement.Application.Features.LeaveTypes.Commands.CreateLeav
 {
     public class CreateLeaveTypeCommandValidator:AbstractValidator<CreateLeaveTypeCommand>
     {
-        public CreateLeaveTypeCommandValidator()
+        private readonly ILeaveTypeRepository _leaveTypeRepository;
+
+        public CreateLeaveTypeCommandValidator(ILeaveTypeRepository leaveTypeRepository)
         {
             RuleFor(p => p.Name)
                 .NotEmpty().WithMessage("{PropertyName} is required")
@@ -24,11 +27,13 @@ namespace HR.LeaveManagement.Application.Features.LeaveTypes.Commands.CreateLeav
             RuleFor(p => p)
                 .MustAsync(LeaveTypeNameUnique)
                 .WithMessage("Leave type already exists");
+            
+            _leaveTypeRepository = leaveTypeRepository;
         }
 
         private Task<bool> LeaveTypeNameUnique(CreateLeaveTypeCommand command, CancellationToken token)
         {
-            throw new NotImplementedException();
+            return _leaveTypeRepository.IsLeaveTypeUnique(command.Name);
         }
     }
 }

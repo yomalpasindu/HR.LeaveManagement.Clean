@@ -8,6 +8,7 @@ namespace HR.LeaveManagement.Applicaation.Contracts.Persistence
         Task<List<LeaveAllocation>> GetLeaveAllocationWithDetails();
         Task<List<LeaveAllocation>> GetLeaveAllocationWithDetails(string userId);
         Task<bool> AllocationExists(string userId,int leaveTypeId,int period);
-        Task<LeaveAllocation> GetUserAllocations(string userId,int leaveTypeId);
+        Task AddAllocations(List<LeaveAllocation> allocations);
+        Task<LeaveAllocation> GetUserAllocations(string userId, int leaveTypeId);
     }
 }
